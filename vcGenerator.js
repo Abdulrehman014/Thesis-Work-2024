@@ -56,7 +56,7 @@ async function generateDID() {
   return { did: didDocument.id, keyPair };
 }
 
-async function createVC() {
+export async function createVC() {
   const { did, keyPair } = await generateDID();  // 'did' is the issuer DID
 
   // Verifiable Credential payload
@@ -71,7 +71,12 @@ async function createVC() {
         id: 'did:example:123',
         alumniOf: {
           id: 'did:example:456',
-          name: 'Example University'
+          name: 'University of Padova',
+          degree: 'Masters in Computer Engineering',
+          PassingYear: '2024',
+          FinalGrades: "90.0/110",
+          WeightedAverage: "26.66/30"
+
         }
       }
     }
