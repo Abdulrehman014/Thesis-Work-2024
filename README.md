@@ -1,71 +1,74 @@
-# Verifiable Credential (VC) and Verifiable Presentation (VP) PoC
+# Verifiable Credentials (PoC)
 
-This Proof of Concept (PoC) demonstrates the process of generating Verifiable Credentials (VC), creating Verifiable Presentations (VP), and verifying them using Decentralized Identifiers (DID) in a self-sovereign identity system. The PoC uses `did:key` DIDs and implements core components for VC generation, storage, and presentation.
+## Introduction
+This project demonstrates a practical implementation of Decentralized Identifiers (DIDs) and Verifiable Credentials (VCs). The project focuses on:
+- Generating DIDs.
+- Creating Verifiable Credentials (VCs).
+- Storing credentials in a file-based wallet.
+- Creating Verifiable Presentations (VPs) and verifying them.
 
-## Features
+The goal is to provide a decentralized, cryptographically secure, and self-sovereign identity solution that can issue, store, and verify credentials without relying on centralized authorities.
 
-- **Generate Verifiable Credential (VC):** Create a credential using DID and sign it with cryptographic keys.
-- **Store VC in a Wallet:** The VC is stored in a simple wallet structure (JSON-based for now) for later use.
-- **Create Verifiable Presentation (VP):** Package the VC into a VP and sign it with the holder's DID.
-- **Send VP to Verifier:** The VP is sent to a mock or local verifier for verification.
-- **Verify VP:** The verifier checks the authenticity of the VP and the integrity of the contained VC.
+## Project Structure
+The project is structured as follows:
 
-## How It Works
+- **didGenerator.js**: Handles the creation of DIDs and key pairs.
+- **vcGenerator.js**: Generates Verifiable Credentials using the DID as the issuer.
+- **createVP.js**: Packages issued VCs into Verifiable Presentations.
+- **verifyVC.js**: Verifies the created Verifiable Credentials.
+- **verifyVP.js**: Verifies the Verifiable Presentations.
+- **sendVP.js**: Handles the sending of Verifiable Presentations.
+- **vpRequestGenerator.js**: Generates requests for Verifiable Presentations.
+- **vpDelivery.js**: Manages the delivery of Verifiable Presentations to the verifier.
+- **wallet.js**: Manages the storage of Verifiable Credentials in a file-based wallet.
+- **wallet.json**: Stores the credentials in a JSON file.
+- **package.json**: Defines the project dependencies.
 
-### 1. Generate DID
-A DID is generated using the `did:key` method. This involves creating a public/private key pair and deriving the DID from the public key.
+## Key Components
+### 1. Decentralized Identifiers (DIDs)
+DIDs are globally unique identifiers that are decentralized and self-sovereign. The `did:key` method is used in this project to generate a cryptographic DID.
 
-### 2. Create Verifiable Credential (VC)
-A Verifiable Credential (VC) is generated based on the issuer's DID. The credential contains information about the subject (e.g., identity, affiliation, etc.) and is cryptographically signed using the issuer's private key.
+### 2. Verifiable Credentials (VCs)
+VCs are digital statements made by an issuer about a subject. In this project, the issuer (identified by a DID) generates a signed Verifiable Credential.
 
-### 3. Store the VC
-The generated VC is stored in a basic JSON wallet (`wallet.json`) that acts as a temporary storage for the issued credentials.
+### 3. Verifiable Presentations (VPs)
+VPs allow the credential holder to share their VCs with others while proving ownership of the credentials.
 
-### 4. Create Verifiable Presentation (VP)
-A Verifiable Presentation (VP) is created by packaging one or more VCs. The holder (presenter) signs the VP with their private key, ensuring that the presentation is valid and trustworthy.
+## Technologies and Libraries Used
+- **Cryptography**: 
+  - Algorithm: `Ed25519` for generating key pairs.
+  - Library: `tweetnacl` for cryptographic operations.
+  
+- **DID Generation**: 
+  - Libraries: `did-method-key`, `ed25519-verification-key-2018` for DID creation.
+  
+- **VC and VP Creation**: 
+  - Library: `did-jwt-vc` for creating and signing VCs and VPs in JWT format.
+  
+- **DID Resolution**: 
+  - Library: `did-resolver` for resolving DIDs and fetching public key metadata.
 
-### 5. Send and Verify the VP
-The VP is sent to a verifier, which validates the signature and verifies the authenticity of the claims in the VC.
+## Installation and Setup
+To run the project locally, follow these steps:
 
-## Usage
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Abdulrehman014/Thesis-Work-2024.git
+2. Navigate into the project directory:
+   ```bash
+    cd Thesis-Work-2024
+4. Install the necessary dependencies:
+   ```bash
+    npm install
+6. To generate a DID and Verifiable Credential, run:
+   ```bash
+    node didGenerator.js
+    node vcGenerator.js
+  
+# Usage
+1. Generating a DID: Run didGenerator.js to create a Decentralized Identifier (DID).
+2. Creating a Verifiable Credential (VC): Use vcGenerator.js to issue a Verifiable Credential tied to the DID.
+3. Creating and Verifying VPs: Use createVP.js to create Verifiable Presentations and verifyVP.js to verify them.
 
-### 1. Install Dependencies
-Clone the repository and install the required dependencies:
-
-
-npm install
-
-
-### 2. Generate a Verifiable Credential (VC)
-Run the following command to generate a VC and store it in the wallet.json:
-node createVP.js
-
-3. Create a Verifiable Presentation (VP)
-Run the following command to generate a VP:
-node createVP.js
-
-4. Send the VP to a Verifier
-Run the following command to send the VP to a mock verifier:
-node sendVP.js
-
-5. Verify the VP
-If you're running a local verifier, you can run the following command to verify the VP:
-node verifyVP.js
-```bash
-Folder Structure
-
-|-- vc-poc/
-    |-- vcGenerator.js      // Generates Verifiable Credentials
-    |-- wallet.json         // Stores VCs temporarily
-    |-- createVP.js         // Generates a Verifiable Presentation
-    |-- sendVP.js           // Sends the VP to the verifier
-    |-- verifyVP.js         // Verifies the VP
-    |-- verifierServer.js   // Optional: Local server for verifying VPs
-
-
-Next Steps
-This PoC can be extended by:
-
-Implementing OpenID4VC and OpenID4VP standards for credential issuance and presentation requests.
-Integrating with a compliant wallet (e.g., EUDI Wallet, Hyperledger Aries) for credential storage.
-Expanding the verifier to handle more complex verification scenarios.
+# Conclusion
+This project demonstrates how to generate, store, and verify decentralized credentials using cryptographically secure methods. You can check the full project in the repository.
